@@ -1,0 +1,14 @@
+environment:
+  image:
+    repository: registry.digitalocean.com/ktest1/dir
+    tag: argoapp-latest
+  ingressHosts:
+    - host: argoapp1.doitright.sk
+      paths:
+        - path: /
+          pathType: Prefix
+  ingressTls:
+    - secretName: argoapp-production-tls
+      hosts:
+        - argoapp1.doitright.sk
+

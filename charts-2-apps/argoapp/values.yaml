@@ -1,0 +1,45 @@
+replicaCount: 1
+
+# nameOverride: ""
+# fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+ingress:
+  enabled: true
+  annotations:
+    spec.ingressClassName: traefik
+    cert-manager.io/cluster-issuer: letsencrypt-iismato
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+environment:
+  image:
+    repository: "" # f.e. registry.digitalocean.com/registry_name/image_name
+    tag: "" # api-test or api-production
+    pullPolicy: Always
+  mongodb:
+    uri: ""
+    dbname: ""
+  corsOriginAdmin: "" # f.e. https://test-admin.yourdomain.com https://prod-admin.yourdomain.com
+  ingressHosts:
+    - host: "" # f.e. api.yourdomain.com
+      paths:
+        - path: /
+          pathType: Prefix
+  ingressTls:
+    - secretName: "" # f.e. api-tls
+      hosts:
+        - "" # f.e. api.yourdomain.com
+      

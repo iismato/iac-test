@@ -1,0 +1,30 @@
+config:
+  registries:
+    - name: "Digital Ocean Registry"
+      prefix: registry.digitalocean.com
+      api_url: registry.digitalocean.com
+      credentials: secret:argocd/digitalocean-registry#.dockerconfigjson
+
+serviceAccount:
+  create: true
+  name: argocd-image-updater
+
+metrics:
+  enabled: true
+
+logLevel: info
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+securityContext:
+  capabilities:
+    drop: [ALL]
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 65532

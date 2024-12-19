@@ -1,0 +1,8 @@
+argo-cd:
+  server:
+    service:
+      type: LoadBalancer
+  dex:
+    enabled: false
+  notifications:
+    enabled: false

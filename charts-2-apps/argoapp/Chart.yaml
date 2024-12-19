@@ -1,0 +1,15 @@
+apiVersion: v2
+name: argoapp
+description: A Helm chart for NestJS API App
+type: application
+version: 3.0.0
+appVersion: "3.0.0"
+
+dependencies: []
+
+maintainers:
+  - name: Martin Nemcek
+    email: m.nemcek@investinslovakia.eu
+
+keywords:
+  - api
