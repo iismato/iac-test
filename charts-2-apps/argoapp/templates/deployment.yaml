@@ -13,6 +13,8 @@ spec:
     metadata:
       labels:
         {{- include "api.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/image: {{ .Values.image.tag }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
