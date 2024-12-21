@@ -29,12 +29,12 @@ spec:
     metadata:
       name: argoapp-production
       annotations:
-        argocd.argoproj.io/compare-options: IgnoreExtraneous
         argocd-image-updater.argoproj.io/image-list: image=registry.digitalocean.com/ktest1/dir:argoapp-latest
         argocd-image-updater.argoproj.io/image.update-strategy: digest
         argocd-image-updater.argoproj.io/image.allow-tags: regexp:argoapp-latest
         argocd-image-updater.argoproj.io/argoapp.platform: linux/amd64
         argocd-image-updater.argoproj.io/write-back-method: git
+        argocd.argoproj.io/compare-options: IgnoreExtraneous
     spec:
       syncPolicy:
         automated:
@@ -54,10 +54,3 @@ spec:
       destination:
         server: https://kubernetes.default.svc
         namespace: argoapp-production
-      ignoreDifferences:
-        - group: cilium.io
-          kind: CiliumIdentity
-          jsonPointers:
-            - /metadata/managedFields
-            - /metadata/resourceVersion
-            - /metadata/uid

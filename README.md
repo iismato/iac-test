@@ -51,6 +51,24 @@ kubectl -n argocd get secret argocd-initial-admin-secret \
 kubectl port-forward service/argo-argocd-server -n argocd 8080:443
 ```
 
+cilliumidentity issue
+https://medium.com/@rojenshrestha100/argo-cd-out-of-sync-due-to-cilium-identity-f9d6188aa056
+
+```
+kubectl edit cm argocd-cm -n argocd
+```
+add this
+```
+data:
+  resource.exclusions: |
+    - apiGroups:
+      - cilium.io
+      kinds:
+      - CiliumIdentity
+      clusters:
+      - "*"
+```
+
 ### inštalácia argocd-image-updater
 
   Autentifikacia Digital Ocean Registry:
