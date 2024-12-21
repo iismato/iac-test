@@ -5,33 +5,14 @@ metadata:
   namespace: argocd
 spec:
   generators:
-    - matrix:
-        generators:
-          - scmProvider:
-              github:
-                # Organizácia alebo užívateľ na GitHube
-                organization: investinslovakia
-                # Token pre autentifikáciu
-                tokenRef:
-                  secretName: github-api-token-secret
-                  key: token
-                allBranches: true
-              filters:
-                - repositoryMatch: ^argo-web
-                - branchMatch: ^main
-              requeueAfterSeconds: 20
-          - git:
-              repoURL: https://github.com/iismato/iac-test.git
-              revision: main
-              directories:
-                - path: charts-2-apps/argoapp
+    - git:
+        repoURL: https://github.com/iismato/iac-test.git
+        revision: argoapp
+        directories:
+          - path: charts-2-apps/argoapp
   template:
     metadata:
       name: argoapp-production
-      annotations:
-        argocd-image-updater.argoproj.io/image-list: image=registry.digitalocean.com/ktest1/dir:argoapp-latest
-        argocd-image-updater.argoproj.io/image.update-strategy: digest
-        argocd-image-updater.argoproj.io/image.allow-tags: regexp:argoapp-latest
     spec:
       syncPolicy:
         automated:
@@ -40,7 +21,7 @@ spec:
       source:
         path: charts-2-apps/argoapp
         repoURL: https://github.com/iismato/iac-test.git
-        targetRevision: main
+        targetRevision: argoapp
         helm:
           releaseName: argoapp-production
           valueFiles:
