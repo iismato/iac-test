@@ -13,6 +13,13 @@ spec:
   template:
     metadata:
       name: argoapp-production
+      annotations:
+        argocd-image-updater.argoproj.io/image-list: image=registry.digitalocean.com/ktest1/dir:argoapp-v1.13
+        argocd-image-updater.argoproj.io/image.update-strategy: digest
+        argocd-image-updater.argoproj.io/image.allow-tags: regexp:^argoapp-v[0-9]+\.[0-9]+$
+        argocd-image-updater.argoproj.io/argoapp.platform: linux/amd64
+        argocd-image-updater.argoproj.io/write-back-method: git
+        argocd.argoproj.io/compare-options: IgnoreExtraneous
     spec:
       syncPolicy:
         automated:
