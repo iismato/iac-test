@@ -1,7 +1,7 @@
 environment:
   image:
     repository: registry.digitalocean.com/ktest1/dir
-    tag: argoapp-latest
+    tag: argoapp-v1.23
   ingressHosts:
     - host: argoapp1.doitright.sk
       paths:
