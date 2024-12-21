@@ -14,7 +14,7 @@ spec:
       labels:
         {{- include "api.selectorLabels" . | nindent 8 }}
       annotations:
-        checksum/image: {{ .Values.image.tag }}
+        checksum/image-version: {{ printf "%s:%s" .Values.environment.image.repository .Values.environment.image.tag | sha256sum }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
