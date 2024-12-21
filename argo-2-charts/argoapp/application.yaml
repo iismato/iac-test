@@ -17,9 +17,9 @@ spec:
                   key: token
                 allBranches: true
               filters:
-                - repositoryMatch: ^argo-web
-                - branchMatch: ^main
-              requeueAfterSeconds: 20
+                - repositoryMatch: argo-web
+                - branchMatch: main
+              requeueAfterSeconds: 30
           - git:
               repoURL: https://github.com/iismato/iac-test.git
               revision: main
@@ -29,14 +29,18 @@ spec:
     metadata:
       name: argoapp-production
       annotations:
+        argocd.argoproj.io/compare-options: IgnoreExtraneous
         argocd-image-updater.argoproj.io/image-list: image=registry.digitalocean.com/ktest1/dir:argoapp-latest
         argocd-image-updater.argoproj.io/image.update-strategy: digest
         argocd-image-updater.argoproj.io/image.allow-tags: regexp:argoapp-latest
+        argocd-image-updater.argoproj.io/argoapp.platform: linux/amd64
+        argocd-image-updater.argoproj.io/write-back-method: git
     spec:
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
+          allowEmpty: true
       source:
         path: charts-2-apps/argoapp
         repoURL: https://github.com/iismato/iac-test.git
@@ -50,3 +54,10 @@ spec:
       destination:
         server: https://kubernetes.default.svc
         namespace: argoapp-production
+      ignoreDifferences:
+        - group: cilium.io
+          kind: CiliumIdentity
+          jsonPointers:
+            - /metadata/managedFields
+            - /metadata/resourceVersion
+            - /metadata/uid
